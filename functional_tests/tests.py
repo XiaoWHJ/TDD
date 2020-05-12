@@ -1,9 +1,9 @@
 from selenium import webdriver  
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
+from django.test import LiveServerTestCase
 
-class NewVisitorTest(unittest.TestCase): #(1)
+class NewVisitorTest(LiveServerTestCase): #(1)
 
     def setUp(self):#3
         self.browser = webdriver.Firefox()
@@ -20,7 +20,7 @@ class NewVisitorTest(unittest.TestCase): #(1)
 
         # Edith has heard about a cool new online to-do app. she goes
         # to check out its homepage.
-        self.browser.get('http://localhost:8000') #(3)
+        self.browser.get(self.live_server_url) #(3)
 
         # She notices the page title and header mention to-do lists
         
@@ -30,7 +30,7 @@ class NewVisitorTest(unittest.TestCase): #(1)
         # She is invited to enter a to-do item straight away
         
         inputbox=self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys('Use peacock feathers to make a fly')
+        inputbox.send_keys('Buy peacock feathers')
         # She types "Buy peacock feathers" into a text box (Edith's hobby
         # is tying fly-fishing lures)
         
@@ -38,7 +38,7 @@ class NewVisitorTest(unittest.TestCase): #(1)
         # "1: Buy peacock feathers" as an item in a to-do list
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
-        self.check_for_row_in_list_table('1:Buy peacock feathers')
+        self.check_for_row_in_list_table('1: Buy peacock feathers')
         
         # There is still a text box inviting her to add another item. She
         # enters "Use peackck feathers to make a fly"(Edith is very methodical)
@@ -48,8 +48,8 @@ class NewVisitorTest(unittest.TestCase): #(1)
         time.sleep(1)
         #(5)
         # the page updates again, and now shows both items on her list
-        self.check_for_row_in_list_table('1:Buy peacock feathers')
-        self.check_for_row_in_list_table('2:Use peacock feathers to make a fly')
+        self.check_for_row_in_list_table('1: Buy peacock feathers')
+        self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
         # Edith wonders whether the site will remember her list. Then she sees
         # that the site has generated a unique URL for her -- there is some
         # explanatory text to that effect.
@@ -57,5 +57,5 @@ class NewVisitorTest(unittest.TestCase): #(1)
         # She visits that URL - her to-do list is still there.
 
         # Satisfied, she goes back to sleep
-if __name__ == '__main__': #(6)
-    unittest.main(warnings='ignore') #(7)
+#if __name__ == '__main__': #(6)
+ #   unittest.main(warnings='ignore') #(7)
