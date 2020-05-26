@@ -16,7 +16,6 @@ class NewVisitorTest(StaticLiveServerTestCase): #(1)
             self.live_server_url = 'http://' + staging_server
 
     def tearDown(self):#3
-        self.browser.refresh()
         self.browser.quit()
     
     def wait_for_row_in_list_table(self, row_text):
