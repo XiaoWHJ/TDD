@@ -22,15 +22,18 @@ def _get_latest_source(source_folder):
 	if exists(source_folder + '/.git'):
 		run(f'cd {source_folder} && git fetch')
 	
-	else：
+	else:
 		run(f'git clone {REPO_URL} {source_folder}')
 	current_commit = local("git log -n 1 --format=%H", capture=True)
 	run(f'cd {source_folder} && git reset --hard {current_commit}')
 
 def _update_settings(source_folder, site_name):
 	settings_path = source_folder + '/superlists/settings.py'
-	sed(settings_path, "DEBUG = True", "DEBUG = False"
-	sed(settings_path, 'ALLOWED_HOSTS =.+$', f'ALLOWED_HOSTS = ["{site_name}"]')
+	sed(settings_path, "DEBUG = True", "DEBUG = False")
+	sed(settings_path,
+        'ALLOWED_HOSTS =.+$', 
+        f'ALLOWED_HOSTS = ["{site_name}"]'
+    )
 	secret_key_file = source_folder + '/superlists/secret_key.py'
 	if not exists(secret_key_file):
 		chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
@@ -47,7 +50,7 @@ def _update_virtualenv(source_folder):
 def _update_static_files(source_folder):
 	run(
 		f'cd {source_folder}'
-		' && ../virtualenv/bin/python manage.py collectsstatic --noinput'
+		' && ../virtualenv/bin/python manage.py collectstatic --noinput'
 	)
 
 def _update_database(source_folder):
