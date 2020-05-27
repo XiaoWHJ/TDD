@@ -58,3 +58,4 @@ def _update_database(source_folder):
 		f'cd {source_folder}'
 		' && ../virtualenv/bin/python manage.py migrate --noinput'
 	)
+    
